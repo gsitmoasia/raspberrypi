@@ -1,0 +1,8 @@
+===================================
+Couple of notes
+===================================
+- Just run the script without any parameters should work if you have the audio tools to record flac files and playback via mpg123.
+- If not, these can be setup by following the steps in this guide, http://diyhacking.com/best-voice-recognition-software-for-raspberry-pi/
+- Note there may be several installation issues as some of the packages may be out of date. Just search Q&A section at the end of the post and see how to workaround.
+- Optionally, we can tune the language and speech input duration via command line params but I find the default, English, works the best.
+- WolframAlpha engine requires an appid. Feel free to use mine but there is a limit of 2000 request per month. So you may want to create one for yourselves if you want to do some serious prototyping. It's free and only takes 5 min to setup via the API link in this page, http://www.wolframalpha.com/widgets/
