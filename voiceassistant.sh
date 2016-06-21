@@ -23,11 +23,11 @@ speechToText() {
     local sttDuration=$2
     local sttHardware=$3
     local tmpFile="voice_control_stt"
-    local tmpLogFile="/dev/shm/${tmpFile}.log"
-    local tmpFlacFile="/dev/shm/${tmpFile}.flac"
+    local tmpLogFile="/tmp/${tmpFile}.log"
+    local tmpFlacFile="/tmp/${tmpFile}.flac"
 
     #clear out the log file
-    rm ${tmpLogFile}
+    [[ -f ${tmpFlacFile} ]] && rm ${tmpLogFile}
     checkForErrorAndExit "failed to rm ${tmpLogFile}"
 
     arecord -D ${sttHardware} -f S16_LE -d ${sttDuration} -r 16000 | flac - -f --best --sample-rate 16000 -o ${tmpFlacFile} >> ${tmpLogFile} 2>&1 
@@ -39,7 +39,7 @@ speechToText() {
     local results=`echo ${rawData} | sed -e 's/[{}]/''/g' | awk -F":" '{print $5}' | awk -F"," '{print $1}' | tr -d '\n'`
     checkForErrorAndExit "failed to parser search results"
 
-    rm ${tmpFlacFile}
+    [[ -f ${tmpFlacFile} ]] && rm ${tmpFlacFile}
     checkForErrorAndExit "failed to remove ${tmpFlacFile}"
 
     echo ${results}
@@ -54,7 +54,7 @@ textToSpeech() {
     local tmpPartialFile="${tmpFile}_tmp.mp3"
 
     #clear out the log file
-    rm ${tmpLogFile}
+    [[ -f ${tmpFlacFile} ]] && rm ${tmpLogFile}
     checkForErrorAndExit "failed to rm ${tmpLogFile}"
 
     #clear out the output file
@@ -110,11 +110,11 @@ textToSpeech() {
 
 callWolframAlpha() {
     local input=$1
-    local tmpFile="/dev/shm/voice_control_ai"
+    local tmpFile="/tmp/voice_control_ai"
     local tmpLogFile="${tmpFile}.log"
 
     #clear out the log file
-    rm ${tmpLogFile}
+    [[ -f ${tmpFlacFile} ]] && rm ${tmpLogFile}
     checkForErrorAndExit "failed to rm ${tmpLogFile}"
 
     local encodedInput=$( echo "${input}" | sed 's/ /%20/g' )
